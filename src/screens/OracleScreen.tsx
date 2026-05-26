@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 
-const CDP_API = 'http://localhost:3001'
+const CDP_API    = 'http://localhost:3001'
+const ORACLE_URL = 'https://g1cde62092a80c9-bankdb.adb.sa-bogota-1.oraclecloudapps.com/ords/r/quiz/quiz/registro'
 
 const imgBgTexture  = 'https://www.figma.com/api/mcp/asset/d119244c-3661-41e9-a2bf-0783f295c510'
 const imgBgDecoTop  = 'https://www.figma.com/api/mcp/asset/f645c64d-53ce-470a-a682-3f6d4323e1ae'
@@ -50,7 +51,7 @@ export default function OracleScreen({ onFinish }: Props) {
     const sw = window.screen.availWidth
     const sh = window.screen.availHeight
     oracleWinRef.current = window.open(
-      '/oracle-launcher.html', 'oracle-quiz',
+      ORACLE_URL, 'oracle-quiz',
       `width=${sw},height=${sh},top=0,left=0`,
     )
 

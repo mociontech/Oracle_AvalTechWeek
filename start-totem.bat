@@ -15,6 +15,6 @@ start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" ^
   --remote-debugging-port=9222 ^
   --user-data-dir=%TEMP%\chrome-totem-debug ^
   --no-first-run ^
-  --kiosk https://REEMPLAZA-CON-TU-SITIO.netlify.app
+  --kiosk https://oracle-avaltechweek.netlify.app
 
 echo  Totem en marcha. Cierra esta ventana cuando termines.
