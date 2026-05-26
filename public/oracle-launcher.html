@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cargando quiz…</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      color: #fff;
+      gap: 40px;
+    }
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      animation: fadeIn 0.5s ease-out both;
+    }
+    .logo-aval  { font-size: 48px; font-weight: 300; letter-spacing: 0.18em; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+    .logo-week  { font-size: 60px; font-weight: 700; letter-spacing: 0.08em; color: #fff; text-transform: uppercase; }
+    .spinner {
+      width: 56px; height: 56px;
+      border: 5px solid rgba(255,255,255,0.1);
+      border-top-color: #C0392B;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    .msg {
+      font-size: 26px;
+      color: rgba(255,255,255,0.55);
+      animation: fadeIn 0.5s ease-out 0.2s both;
+    }
+    .btn {
+      display: none;
+      background: #C0392B;
+      border: none;
+      border-radius: 18px;
+      color: #fff;
+      font-size: 36px;
+      font-weight: 800;
+      padding: 28px 72px;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(192,57,43,0.5);
+      animation: breathe 2.6s ease-in-out 0.5s infinite;
+    }
+    @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1);    filter: brightness(1);    }
+      50%       { transform: scale(1.05); filter: brightness(1.14); }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <span class="logo-aval">AVAL</span>
+    <span class="logo-week">Tech Week</span>
+  </div>
+  <div class="spinner" id="spinner"></div>
+  <p class="msg" id="msg">Iniciando quiz en pantalla completa…</p>
+  <button class="btn" id="btn" onclick="goFullscreen()">Toca para continuar ›</button>
+
+  <script>
+    const ORACLE_URL = 'https://g1cde62092a80c9-bankdb.adb.sa-bogota-1.oraclecloudapps.com/ords/r/quiz/quiz/registro'
+
+    function redirect() {
+      window.location.href = ORACLE_URL
+    }
+
+    function goFullscreen() {
+      document.documentElement.requestFullscreen()
+        .then(redirect)
+        .catch(redirect)  // if fullscreen still fails, just go anyway
+    }
+
+    function showFallback() {
+      document.getElementById('spinner').style.display = 'none'
+      document.getElementById('msg').textContent = 'Toca para entrar en pantalla completa'
+      document.getElementById('btn').style.display = 'block'
+    }
+
+    // Try fullscreen immediately — this works because the window was opened
+    // in response to a user gesture (click on "Iniciar reto")
+    document.documentElement.requestFullscreen()
+      .then(redirect)
+      .catch(() => {
+        // Browser blocked it — show the tap-to-continue button
+        showFallback()
+      })
+  </script>
+</body>
+</html>
