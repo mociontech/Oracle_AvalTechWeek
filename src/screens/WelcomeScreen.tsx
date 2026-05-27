@@ -53,7 +53,7 @@ export default function WelcomeScreen({ onNext }: Props) {
       </div>
 
       {/* Oracle logo — después del fondo */}
-      <div style={{ ...abs('6%', '46%', '82%', '10%'), overflow: 'hidden', pointerEvents: 'none', ...anim('fadeIn', '0.45s', '0.32s') }}>
+      <div style={{ ...abs('9.64%', '62.69%', '88.49%', '11.48%'), overflow: 'hidden', pointerEvents: 'none', ...anim('fadeIn', '0.45s', '0.32s') }}>
         <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none' }} src={imgOracleLogo} />
       </div>
 

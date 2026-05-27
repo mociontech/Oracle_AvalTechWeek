@@ -27,7 +27,7 @@ export default function ReadyScreen({ onNext, onBack }: Props) {
       </div>
 
       {/* Oracle logo — después del fondo */}
-      <div style={{ ...abs('6%', '46%', '82%', '10%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
+      <div style={{ ...abs('9.64%', '62.69%', '88.49%', '11.48%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
         <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none' }} src={imgOracleLogo} />
       </div>
 
@@ -87,11 +87,11 @@ export default function ReadyScreen({ onNext, onBack }: Props) {
         </span>
       </div>
 
-      {/* Botón Volver — misma forma que Iniciar reto */}
+      {/* Botón Volver — debajo del botón Iniciar reto */}
       <div
         onClick={onBack}
         style={{
-          position: 'absolute', bottom: '60px', left: '52px',
+          position: 'absolute', top: '77%', left: '12.13%',
           width: '380px', height: '108px',
           cursor: 'pointer',
           animation: 'fadeIn 0.4s ease-out 1.2s both',

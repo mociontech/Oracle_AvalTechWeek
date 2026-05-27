@@ -25,7 +25,7 @@ export default function GuideScreen({ onNext }: Props) {
       </div>
 
       {/* Oracle logo — después del fondo */}
-      <div style={{ ...abs('6%', '46%', '82%', '10%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
+      <div style={{ ...abs('9.64%', '62.69%', '88.49%', '11.48%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
         <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none' }} src={imgOracleLogo} />
       </div>
 
