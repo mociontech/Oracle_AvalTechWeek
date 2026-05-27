@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { playClick, playWhoosh } from '../utils/sounds'
 
 const imgBgTexture  = '/images/welcome-bg-texture.png'
 const imgBgDeco     = '/images/welcome-bg-deco.png'
@@ -28,6 +29,7 @@ export default function WelcomeScreen({ onNext }: Props) {
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation()
+    playClick()
     window.close()
     fetch('http://localhost:3001/api/close-kiosk', { method: 'POST' }).catch(() => {})
   }
@@ -47,8 +49,8 @@ export default function WelcomeScreen({ onNext }: Props) {
       </div>
 
       {/* Oracle logo — después del fondo */}
-      <div style={{ ...abs('9.64%', '62.69%', '88.49%', '11.48%'), overflow: 'hidden', pointerEvents: 'none', ...anim('fadeIn', '0.45s', '0.32s') }}>
-        <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none' }} src={imgOracleLogo} />
+      <div style={{ ...abs('15.89%', '50.50%', '81.49%', '13.33%'), overflow: 'hidden', pointerEvents: 'none', ...anim('fadeIn', '0.45s', '0.32s') }}>
+        <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none', filter: 'brightness(0) saturate(100%) invert(22%) sepia(90%) saturate(3500%) hue-rotate(346deg) brightness(80%)' }} src={imgOracleLogo} />
       </div>
 
       {/* ¡Juega y gana! */}
@@ -100,7 +102,7 @@ export default function WelcomeScreen({ onNext }: Props) {
 
       {/* Botón Start */}
       <div
-        onClick={onNext}
+        onClick={() => { playWhoosh(); onNext() }}
         style={{
           ...abs('67.67%', '48.34%', '25.99%', '12.13%'),
           cursor: 'pointer',

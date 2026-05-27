@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { unlockAudio } from './utils/sounds'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import WelcomeScreen   from './screens/WelcomeScreen'
 import GuideScreen     from './screens/GuideScreen'
@@ -64,10 +65,12 @@ function AppRoutes() {
 
 function useAutoFullscreen() {
   useEffect(() => {
+    let audioUnlocked = false
     const request = () => {
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen?.().catch(() => {})
       }
+      if (!audioUnlocked) { audioUnlocked = true; unlockAudio() }
     }
     window.addEventListener('pointerdown', request)
     return () => window.removeEventListener('pointerdown', request)

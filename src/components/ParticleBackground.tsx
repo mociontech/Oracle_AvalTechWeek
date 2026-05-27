@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-const COUNT = 72
+const COUNT = 100
 
 interface Particle {
   x: number; y: number
@@ -18,8 +18,8 @@ function spawn(w: number, h: number): Particle {
     y: Math.random() * h,
     vx: (Math.random() - 0.5) * 0.45,
     vy: -(Math.random() * 0.55 + 0.12),
-    size: Math.random() * 2.8 + 0.6,
-    baseOpacity: Math.random() * 0.42 + 0.08,
+    size: Math.random() * 3.5 + 1.2,
+    baseOpacity: Math.random() * 0.5 + 0.22,
     phase: Math.random() * Math.PI * 2,
     phaseSpeed: Math.random() * 0.022 + 0.007,
     isRed: Math.random() > 0.83,
@@ -61,7 +61,7 @@ export default function ParticleBackground() {
 
       for (const p of particles) {
         p.phase += p.phaseSpeed
-        const alpha = p.baseOpacity * (0.55 + 0.45 * Math.sin(p.phase))
+        const alpha = p.baseOpacity * (0.65 + 0.35 * Math.sin(p.phase))
         const r = p.isRed ? 192 : 255
         const g = p.isRed ? 57  : 255
         const b = p.isRed ? 43  : 255

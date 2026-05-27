@@ -1,3 +1,5 @@
+import { playClick } from '../utils/sounds'
+
 const imgBgTexture  = '/images/branding-1.png'
 const imgBgDecoTop  = '/images/branding-2.png'
 const imgLogoBanner = '/images/branding-3.png'
@@ -32,7 +34,7 @@ export default function BrandingScreen({ onNext }: Props) {
       </div>
 
       {/* Tap para reiniciar */}
-      <div onClick={onNext} style={{ position: 'absolute', inset: 0, cursor: 'pointer' }} />
+      <div onClick={() => { playClick(); onNext() }} style={{ position: 'absolute', inset: 0, cursor: 'pointer' }} />
 
     </div>
   )

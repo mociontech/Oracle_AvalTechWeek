@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { playF1 } from '../utils/sounds'
 
 const imgBgTexture  = '/images/oracle-bg-texture.png'
 const imgBgDecoTop  = '/images/oracle-bg-deco-top.png'
@@ -14,6 +15,8 @@ const abs = (top: string, right: string, bottom: string, left: string) => ({
 })
 
 export default function QuestionScreen({ onNext }: Props) {
+  useEffect(() => { playF1() }, [])
+
   // Auto-avanza a los 5 segundos; tap también avanza
   useEffect(() => {
     const t = setTimeout(onNext, 5000)

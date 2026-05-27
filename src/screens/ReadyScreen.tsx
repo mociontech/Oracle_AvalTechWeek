@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { playClick, playWhoosh } from '../utils/sounds'
+
 const imgBgTexture  = '/images/ready-bg-texture.png'
 const imgBgDeco     = '/images/ready-bg-deco.png'
 const imgOracleLogo = '/images/ready-oracle-logo.png'
@@ -12,6 +15,10 @@ const abs = (top: string, right: string, bottom: string, left: string) => ({
 })
 
 export default function ReadyScreen({ onNext, onBack }: Props) {
+  const [backActive, setBackActive] = useState(false)
+
+  const handleStart = () => { playWhoosh(); onNext() }
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
 
@@ -27,8 +34,8 @@ export default function ReadyScreen({ onNext, onBack }: Props) {
       </div>
 
       {/* Oracle logo — después del fondo */}
-      <div style={{ ...abs('9.64%', '62.69%', '88.49%', '11.48%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
-        <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none' }} src={imgOracleLogo} />
+      <div style={{ ...abs('15.89%', '50.50%', '81.49%', '13.33%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
+        <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none', filter: 'brightness(0) saturate(100%) invert(22%) sepia(90%) saturate(3500%) hue-rotate(346deg) brightness(80%)' }} src={imgOracleLogo} />
       </div>
 
       {/* ¿Estás — titular enorme, cae en dos tiempos */}
@@ -69,7 +76,7 @@ export default function ReadyScreen({ onNext, onBack }: Props) {
 
       {/* Botón Iniciar reto — sube desde abajo + respira */}
       <div
-        onClick={onNext}
+        onClick={handleStart}
         style={{
           ...abs('67.76%', '44.07%', '25.94%', '12.13%'),
           cursor: 'pointer',
@@ -80,31 +87,58 @@ export default function ReadyScreen({ onNext, onBack }: Props) {
         <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none', display: 'block' }} src={imgStartBtn} />
         <span style={{
           position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: "'Oracle Sans', sans-serif", fontWeight: 800, fontSize: '75px',
-          color: '#fff', letterSpacing: '1px',
+          fontFamily: "'Oracle Sans', sans-serif", fontWeight: 800, fontSize: '63.79px',
+          fontStyle: 'normal', lineHeight: 'normal', textAlign: 'center', color: '#fff',
         }}>
           Iniciar reto
         </span>
       </div>
 
-      {/* Botón Volver — debajo del botón Iniciar reto */}
-      <div
-        onClick={onBack}
-        style={{
-          position: 'absolute', top: '77%', left: '12.13%',
-          width: '380px', height: '108px',
-          cursor: 'pointer',
-          animation: 'fadeIn 0.4s ease-out 1.2s both',
-        }}
-      >
-        <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none', display: 'block' }} src={imgStartBtn} />
-        <span style={{
-          position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: "'Oracle Sans', sans-serif", fontWeight: 800, fontSize: '52px',
-          color: '#fff', letterSpacing: '1px',
-        }}>
-          ← Volver
-        </span>
+      {/* Botón Volver — pill animado estilo Uiverse en rojo */}
+      <div style={{
+        position: 'absolute', bottom: '60px', left: '52px',
+        width: '380px', height: '108px',
+        animation: 'fadeIn 0.4s ease-out 1.2s both',
+      }}>
+        <div
+          onPointerDown={() => setBackActive(true)}
+          onPointerUp={() => { setBackActive(false); playClick(); onBack() }}
+          onPointerCancel={() => setBackActive(false)}
+          onPointerLeave={() => setBackActive(false)}
+          style={{
+            position: 'relative', width: '100%', height: '100%',
+            background: '#fff', borderRadius: '22px',
+            cursor: 'pointer', overflow: 'hidden',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.13)',
+          }}
+        >
+          {/* Pill roja animada */}
+          <div style={{
+            position: 'absolute',
+            left: '6px', top: '6px', bottom: '6px',
+            width: backActive ? 'calc(100% - 12px)' : '96px',
+            background: '#C0392B',
+            borderRadius: '16px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            transition: 'width 0.4s ease',
+            zIndex: 10,
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" height="44px" width="44px">
+              <path d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z" fill="#ffffff" />
+              <path d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z" fill="#ffffff" />
+            </svg>
+          </div>
+          {/* Texto */}
+          <span style={{
+            position: 'relative', zIndex: 5,
+            fontFamily: "'Oracle Sans','Segoe UI',sans-serif",
+            fontWeight: 700, fontSize: '48px', color: '#333',
+            paddingLeft: '56px', userSelect: 'none',
+          }}>
+            Volver
+          </span>
+        </div>
       </div>
 
     </div>

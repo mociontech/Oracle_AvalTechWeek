@@ -5,6 +5,8 @@ const imgQrFrame     = '/images/guide-bottom-red.svg'
 const imgQrCode      = '/images/guide-arrow.png'
 const imgArrow       = '/images/guide-qr.png'
 
+import { playWhoosh } from '../utils/sounds'
+
 interface Props { onNext: () => void }
 
 const abs = (top: string, right: string, bottom: string, left: string) => ({
@@ -25,8 +27,8 @@ export default function GuideScreen({ onNext }: Props) {
       </div>
 
       {/* Oracle logo — después del fondo */}
-      <div style={{ ...abs('9.64%', '62.69%', '88.49%', '11.48%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
-        <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none' }} src={imgOracleLogo} />
+      <div style={{ ...abs('15.89%', '50.50%', '81.49%', '13.33%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
+        <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none', filter: 'brightness(0) saturate(100%) invert(22%) sepia(90%) saturate(3500%) hue-rotate(346deg) brightness(80%)' }} src={imgOracleLogo} />
       </div>
 
       {/* Conoce esta guía… — entra línea por línea desde la izquierda */}
@@ -59,7 +61,7 @@ export default function GuideScreen({ onNext }: Props) {
       </div>
 
       {/* Tap para continuar */}
-      <div onClick={onNext} style={{ position: 'absolute', inset: 0, cursor: 'pointer' }} />
+      <div onClick={() => { playWhoosh(); onNext() }} style={{ position: 'absolute', inset: 0, cursor: 'pointer' }} />
 
     </div>
   )

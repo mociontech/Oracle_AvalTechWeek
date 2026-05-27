@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { playClick } from '../utils/sounds'
 
 const CDP_API    = 'http://localhost:3001'
 
@@ -21,6 +22,7 @@ export default function OracleScreen({ onFinish }: Props) {
   const doneRef      = useRef(false)
 
   const [cdpActive, setCdpActive] = useState(false)
+
 
   // Press 'T' to simulate ranking detection (testing)
   useEffect(() => {
@@ -161,7 +163,7 @@ export default function OracleScreen({ onFinish }: Props) {
 
           {/* Botón manual — sube + respira */}
           <button
-            onClick={finish}
+            onClick={() => { playClick(); finish() }}
             style={{
               background: '#C0392B', border: 'none', borderRadius: '20px',
               color: '#fff', fontSize: '50px', fontWeight: 800,

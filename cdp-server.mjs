@@ -8,6 +8,7 @@
  */
 
 import http from 'node:http'
+import { exec } from 'node:child_process'
 
 const PORT          = 3001
 const CDP_BASE      = 'http://127.0.0.1:9222'
@@ -76,7 +77,6 @@ http.createServer((req, res) => {
 
   if (req.method === 'POST' && req.url === '/api/close-kiosk') {
     send(res, 200, { ok: true })
-    const { exec } = await import('node:child_process')
     exec('taskkill /F /IM chrome.exe', () => {})
     return
   }
