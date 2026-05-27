@@ -48,7 +48,7 @@ export default function OracleScreen({ onFinish }: Props) {
     const sw = window.screen.availWidth
     const sh = window.screen.availHeight
     oracleWinRef.current = window.open(
-      `https://g1cde62092a80c9-bankdb.adb.sa-bogota-1.oraclecloudapps.com/ords/r/quiz/quiz/registro`,
+      '/oracle-launcher.html',
       'oracle-quiz',
       `width=${sw},height=${sh},top=0,left=0`,
     )

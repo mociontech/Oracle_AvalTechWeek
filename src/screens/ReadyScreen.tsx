@@ -27,19 +27,9 @@ export default function ReadyScreen({ onNext, onBack }: Props) {
       </div>
 
       {/* Oracle logo — después del fondo */}
-      <div style={{ ...abs('9.64%', '62.69%', '88.49%', '11.48%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
+      <div style={{ ...abs('6%', '46%', '82%', '10%'), overflow: 'hidden', pointerEvents: 'none', animation: 'fadeIn 0.45s ease-out 0.32s both' }}>
         <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none' }} src={imgOracleLogo} />
       </div>
-
-      {/* AVAL Tech Week — cae desde arriba */}
-      <p style={{
-        ...abs('12.44%', '24.54%', '81.15%', '11.3%'),
-        animation: 'fadeInDown 0.55s ease-out 0.38s both',
-        lineHeight: 0, textAlign: 'center', whiteSpace: 'nowrap', fontStyle: 'normal',
-      }}>
-        <span style={{ fontFamily: "'Oracle Sans', sans-serif", fontWeight: 300, lineHeight: 'normal', fontSize: '91.2px', color: '#444d4d' }}>AVAL</span>
-        <span style={{ fontFamily: "'Oracle Sans', sans-serif", fontWeight: 400, lineHeight: 'normal', fontSize: '94px',   color: '#444d4d' }}>{' Tech Week'}</span>
-      </p>
 
       {/* ¿Estás — titular enorme, cae en dos tiempos */}
       <p style={{

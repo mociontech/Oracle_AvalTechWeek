@@ -53,19 +53,9 @@ export default function WelcomeScreen({ onNext }: Props) {
       </div>
 
       {/* Oracle logo — después del fondo */}
-      <div style={{ ...abs('9.64%', '62.69%', '88.49%', '11.48%'), overflow: 'hidden', pointerEvents: 'none', ...anim('fadeIn', '0.45s', '0.32s') }}>
+      <div style={{ ...abs('6%', '46%', '82%', '10%'), overflow: 'hidden', pointerEvents: 'none', ...anim('fadeIn', '0.45s', '0.32s') }}>
         <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none' }} src={imgOracleLogo} />
       </div>
-
-      {/* AVAL Tech Week — cae desde arriba */}
-      <p style={{
-        ...abs('12.44%', '24.54%', '81.15%', '11.3%'),
-        ...anim('fadeInDown', '0.55s', '0.38s'),
-        lineHeight: 0, textAlign: 'center', whiteSpace: 'nowrap', wordBreak: 'break-word', fontStyle: 'normal',
-      }}>
-        <span style={{ fontFamily: "'Oracle Sans', sans-serif", fontWeight: 300, lineHeight: 'normal', fontSize: '91.2px', color: '#444d4d' }}>AVAL</span>
-        <span style={{ fontFamily: "'Oracle Sans', sans-serif", fontWeight: 400, lineHeight: 'normal', fontSize: '94px',   color: '#444d4d' }}>{' Tech Week'}</span>
-      </p>
 
       {/* ¡Juega y gana! */}
       <p style={{
