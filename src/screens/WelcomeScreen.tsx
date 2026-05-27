@@ -6,7 +6,7 @@ const imgBottomRed  = '/images/welcome-bottom-red.png'
 const imgOracleLogo = '/images/welcome-oracle-logo.png'
 const imgStartBtn   = '/images/welcome-start-btn.svg'
 
-interface Props { onNext: () => void }
+interface Props { onNext: () => void; onToggleFullscreen: () => void }
 
 const abs = (top: string, right: string, bottom: string, left: string) => ({
   position: 'absolute' as const,
@@ -16,7 +16,7 @@ const abs = (top: string, right: string, bottom: string, left: string) => ({
 const anim = (name: string, duration: string, delay: string, extra = '') =>
   ({ animation: `${name} ${duration} ease-out ${delay} both ${extra}`.trim() })
 
-export default function WelcomeScreen({ onNext }: Props) {
+export default function WelcomeScreen({ onNext, onToggleFullscreen }: Props) {
   const [isFs, setIsFs] = useState(!!document.fullscreenElement)
 
   useEffect(() => {
@@ -25,13 +25,9 @@ export default function WelcomeScreen({ onNext }: Props) {
     return () => document.removeEventListener('fullscreenchange', onChange)
   }, [])
 
-  const toggleFs = (e: React.MouseEvent) => {
+  const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (document.fullscreenElement) {
-      document.exitFullscreen?.().catch(() => {})
-    } else {
-      document.documentElement.requestFullscreen?.().catch(() => {})
-    }
+    onToggleFullscreen()
   }
 
   return (
@@ -132,7 +128,7 @@ export default function WelcomeScreen({ onNext }: Props) {
 
       {/* Botón fullscreen — esquina inferior derecha */}
       <button
-        onClick={toggleFs}
+        onClick={handleToggle}
         title={isFs ? 'Salir de pantalla completa' : 'Pantalla completa'}
         style={{
           position: 'absolute', bottom: '36px', right: '36px',
