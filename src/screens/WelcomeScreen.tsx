@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 
 const imgBgTexture  = '/images/welcome-bg-texture.png'
 const imgBgDeco     = '/images/welcome-bg-deco.png'
@@ -16,12 +16,27 @@ const abs = (top: string, right: string, bottom: string, left: string) => ({
 const anim = (name: string, duration: string, delay: string, extra = '') =>
   ({ animation: `${name} ${duration} ease-out ${delay} both ${extra}`.trim() })
 
-const closeApp = (e: React.MouseEvent) => {
-  e.stopPropagation()
-  fetch('http://localhost:3001/api/close-kiosk', { method: 'POST' }).catch(() => {})
-}
-
 export default function WelcomeScreen({ onNext }: Props) {
+  const [closeState, setCloseState] = useState<'idle' | 'closing' | 'failed'>('idle')
+
+  const handleClose = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (closeState !== 'idle') return
+    setCloseState('closing')
+
+    // Intento 1: window.close() (funciona si Chrome no está en kiosk)
+    window.close()
+
+    // Intento 2: CDP server (funciona en totem con cdp-server.mjs corriendo)
+    fetch('http://localhost:3001/api/close-kiosk', { method: 'POST' })
+      .catch(() => {})
+
+    // Si después de 1.5 s todavía estamos aquí, mostrar ayuda
+    setTimeout(() => {
+      setCloseState('failed')
+      setTimeout(() => setCloseState('idle'), 3000)
+    }, 1500)
+  }
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -52,7 +67,7 @@ export default function WelcomeScreen({ onNext }: Props) {
         <span style={{ fontFamily: "'Oracle Sans', sans-serif", fontWeight: 400, lineHeight: 'normal', fontSize: '94px',   color: '#444d4d' }}>{' Tech Week'}</span>
       </p>
 
-      {/* ¡Juega y gana! — titular principal, cae fuerte */}
+      {/* ¡Juega y gana! */}
       <p style={{
         ...abs('28.97%', '31.06%', '65.25%', '10.88%'),
         ...anim('fadeInDown', '0.65s', '0.5s'),
@@ -63,7 +78,7 @@ export default function WelcomeScreen({ onNext }: Props) {
         ¡Juega y gana!
       </p>
 
-      {/* Pon a prueba tu — entra desde la izquierda */}
+      {/* Pon a prueba tu */}
       <p style={{
         ...abs('35.84%', '48.3%', '60.1%', '11.97%'),
         ...anim('fadeInLeft', '0.55s', '0.65s'),
@@ -81,7 +96,7 @@ export default function WelcomeScreen({ onNext }: Props) {
         conocimiento
       </p>
 
-      {/* ¡Premios increíbles — entra desde la izquierda, más tardado */}
+      {/* ¡Premios increíbles */}
       <p style={{
         ...abs('48.81%', '25.34%', '45.77%', '12.25%'),
         ...anim('fadeInLeft', '0.55s', '0.85s'),
@@ -99,7 +114,7 @@ export default function WelcomeScreen({ onNext }: Props) {
         te esperan!
       </p>
 
-      {/* Botón Start — sube desde abajo + respira */}
+      {/* Botón Start */}
       <div
         onClick={onNext}
         style={{
@@ -119,30 +134,38 @@ export default function WelcomeScreen({ onNext }: Props) {
         </span>
       </div>
 
-      {/* Botón cerrar app — operador, esquina inferior derecha */}
+      {/* Botón cerrar — operador, esquina inferior derecha */}
       <button
-        onClick={closeApp}
+        onClick={handleClose}
         title="Cerrar aplicación"
         style={{
           position: 'absolute', bottom: '36px', right: '36px',
-          width: '80px', height: '80px',
-          background: 'rgba(0,0,0,0.28)',
+          width: closeState === 'failed' ? '340px' : '80px',
+          height: '80px',
+          background: closeState === 'failed' ? 'rgba(192,57,43,0.85)' : 'rgba(0,0,0,0.28)',
           border: '2px solid rgba(255,255,255,0.35)',
           borderRadius: '16px',
-          cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: closeState === 'idle' ? 'pointer' : 'default',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
           zIndex: 50,
           animation: 'fadeIn 0.4s ease-out 1.3s both',
           backdropFilter: 'blur(6px)',
-          transition: 'background 0.2s',
+          transition: 'background 0.2s, width 0.3s',
+          overflow: 'hidden', whiteSpace: 'nowrap',
+          padding: '0 20px',
         }}
-        onMouseEnter={e => (e.currentTarget.style.background = 'rgba(192,57,43,0.55)')}
-        onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.28)')}
       >
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
+        {closeState === 'failed' ? (
+          <span style={{ color: '#fff', fontSize: '28px', fontFamily: "'Segoe UI',sans-serif", fontWeight: 600 }}>
+            Usa Alt+F4 para cerrar
+          </span>
+        ) : (
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round"
+            style={{ opacity: closeState === 'closing' ? 0.4 : 1, transition: 'opacity 0.2s' }}>
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        )}
       </button>
 
     </div>

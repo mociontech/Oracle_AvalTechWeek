@@ -20,7 +20,6 @@ export default function OracleScreen({ onFinish }: Props) {
   const cdpPollRef   = useRef<ReturnType<typeof setInterval> | null>(null)
   const doneRef      = useRef(false)
 
-  const [finishing, setFinishing] = useState(false)
   const [cdpActive, setCdpActive] = useState(false)
 
   // Press 'T' to simulate ranking detection (testing)
@@ -42,15 +41,15 @@ export default function OracleScreen({ onFinish }: Props) {
     clearInterval(cdpPollRef.current!)
     try { oracleWinRef.current?.close() } catch { /* ignore */ }
 
-    setFinishing(true)
-    setTimeout(() => onFinish(), 1600)
+    onFinish()
   }, [onFinish])
 
   useEffect(() => {
     const sw = window.screen.availWidth
     const sh = window.screen.availHeight
     oracleWinRef.current = window.open(
-      '/oracle-launcher.html', 'oracle-quiz',
+      `https://g1cde62092a80c9-bankdb.adb.sa-bogota-1.oraclecloudapps.com/ords/r/quiz/quiz/registro`,
+      'oracle-quiz',
       `width=${sw},height=${sh},top=0,left=0`,
     )
 
@@ -105,8 +104,7 @@ export default function OracleScreen({ onFinish }: Props) {
       </div>
 
       {/* Panel de espera */}
-      {!finishing && (
-        <div style={{
+      <div style={{
           position: 'absolute', top: '6%', left: 0, right: 0, zIndex: 10,
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '36px',
           animation: 'fadeInUp 0.6s ease-out 0.4s both',
@@ -177,34 +175,6 @@ export default function OracleScreen({ onFinish }: Props) {
             ✓ Terminé el quiz
           </button>
         </div>
-      )}
-
-      {/* Flash de felicitaciones — sin countdown */}
-      {finishing && (
-        <div style={{
-          position: 'absolute', inset: 0, zIndex: 20,
-          background: 'rgba(10,10,30,0.93)',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center', gap: '48px',
-          animation: 'fadeIn 0.35s ease-out both',
-        }}>
-          <p style={{
-            fontFamily: "'Oracle Sans','Segoe UI',sans-serif",
-            fontSize: '128px', fontWeight: 900, color: '#fff',
-            textAlign: 'center', lineHeight: 1.1,
-            animation: 'scaleIn 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both',
-          }}>
-            ¡Felicitaciones!
-          </p>
-          <p style={{
-            fontFamily: "'Segoe UI',sans-serif", fontSize: '52px',
-            fontWeight: 400, color: '#ccc', textAlign: 'center',
-            animation: 'fadeInUp 0.5s ease-out 0.3s both',
-          }}>
-            Volviendo al inicio...
-          </p>
-        </div>
-      )}
     </div>
   )
 }
