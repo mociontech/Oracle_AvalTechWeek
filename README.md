@@ -71,18 +71,6 @@ trivia-totem/
 └── netlify.toml         # Config de build y SPA fallback
 ```
 
----
-
-## Deploy en Netlify
-
-1. Sube el repositorio a GitHub
-2. En Netlify: **Add new site → Import from GitHub**
-3. Netlify detecta `netlify.toml` automáticamente:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-4. Deploy — obtienes tu URL `*.netlify.app`
-
----
 
 ## Configuración del totem (Windows)
 
