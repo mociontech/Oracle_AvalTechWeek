@@ -4,14 +4,14 @@ const imgOracleLogo = '/images/ready-oracle-logo.png'
 const imgBottomRed  = '/images/ready-bottom-red.png'
 const imgStartBtn   = '/images/ready-start-btn.svg'
 
-interface Props { onNext: () => void }
+interface Props { onNext: () => void; onBack: () => void }
 
 const abs = (top: string, right: string, bottom: string, left: string) => ({
   position: 'absolute' as const,
   top, right, bottom, left,
 })
 
-export default function ReadyScreen({ onNext }: Props) {
+export default function ReadyScreen({ onNext, onBack }: Props) {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
 
@@ -96,6 +96,35 @@ export default function ReadyScreen({ onNext }: Props) {
           Iniciar reto
         </span>
       </div>
+
+      {/* Botón volver — esquina inferior izquierda */}
+      <button
+        onClick={onBack}
+        style={{
+          position: 'absolute', bottom: '48px', left: '52px',
+          background: 'transparent',
+          border: '2px solid rgba(68,77,77,0.35)',
+          borderRadius: '16px',
+          color: '#444d4d',
+          fontFamily: "'Oracle Sans', sans-serif",
+          fontWeight: 500,
+          fontSize: '38px',
+          padding: '20px 48px',
+          cursor: 'pointer',
+          animation: 'fadeIn 0.4s ease-out 1.2s both',
+          transition: 'background 0.2s, border-color 0.2s',
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.background = 'rgba(68,77,77,0.1)'
+          e.currentTarget.style.borderColor = 'rgba(68,77,77,0.6)'
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.background = 'transparent'
+          e.currentTarget.style.borderColor = 'rgba(68,77,77,0.35)'
+        }}
+      >
+        ← Volver
+      </button>
 
     </div>
   )

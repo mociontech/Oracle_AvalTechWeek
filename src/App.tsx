@@ -52,7 +52,7 @@ function AppRoutes() {
         <Routes location={location}>
           <Route path="/"         element={<WelcomeScreen  onNext={()    => navigate('/guide')}    />} />
           <Route path="/guide"    element={<GuideScreen    onNext={()    => navigate('/ready')}    />} />
-          <Route path="/ready"    element={<ReadyScreen    onNext={()    => navigate('/oracle')}   />} />
+          <Route path="/ready"    element={<ReadyScreen    onNext={()    => navigate('/oracle')} onBack={() => navigate('/')} />} />
           <Route path="/oracle"   element={<OracleScreen   onFinish={()  => navigate('/question')} />} />
           <Route path="/question" element={<QuestionScreen onNext={()    => navigate('/branding')} />} />
           <Route path="/branding" element={<BrandingScreen onNext={()    => navigate('/')}         />} />

@@ -64,7 +64,10 @@ export default function OracleScreen({ onFinish }: Props) {
       try {
         const res  = await fetch(`${CDP_API}/api/oracle-ranking`)
         const data = await res.json() as { detected: boolean }
-        if (data.detected) finish()
+        if (data.detected) {
+          clearInterval(cdpPollRef.current!)   // dejar de consultar
+          setTimeout(finish, 7000)             // cerrar tras 7 s viendo el ranking
+        }
       } catch { /* servidor no listo */ }
     }, 1000)
 
