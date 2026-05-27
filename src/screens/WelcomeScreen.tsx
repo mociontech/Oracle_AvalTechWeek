@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 const imgBgTexture  = '/images/welcome-bg-texture.png'
 const imgBgDeco     = '/images/welcome-bg-deco.png'
@@ -17,25 +17,19 @@ const anim = (name: string, duration: string, delay: string, extra = '') =>
   ({ animation: `${name} ${duration} ease-out ${delay} both ${extra}`.trim() })
 
 export default function WelcomeScreen({ onNext }: Props) {
-  const [closeState, setCloseState] = useState<'idle' | 'closing' | 'failed'>('idle')
+  const [showClose, setShowClose] = useState(false)
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const revealClose = () => {
+    setShowClose(true)
+    if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
+    hideTimerRef.current = setTimeout(() => setShowClose(false), 5000)
+  }
 
   const handleClose = (e: React.MouseEvent) => {
     e.stopPropagation()
-    if (closeState !== 'idle') return
-    setCloseState('closing')
-
-    // Intento 1: window.close() (funciona si Chrome no está en kiosk)
     window.close()
-
-    // Intento 2: CDP server (funciona en totem con cdp-server.mjs corriendo)
-    fetch('http://localhost:3001/api/close-kiosk', { method: 'POST' })
-      .catch(() => {})
-
-    // Si después de 1.5 s todavía estamos aquí, mostrar ayuda
-    setTimeout(() => {
-      setCloseState('failed')
-      setTimeout(() => setCloseState('idle'), 3000)
-    }, 1500)
+    fetch('http://localhost:3001/api/close-kiosk', { method: 'POST' }).catch(() => {})
   }
 
   return (
@@ -124,38 +118,38 @@ export default function WelcomeScreen({ onNext }: Props) {
         </span>
       </div>
 
-      {/* Botón cerrar — operador, esquina inferior derecha */}
+      {/* Zona de toque oculta — tercio inferior revela botón de cierre */}
+      <div
+        onClick={revealClose}
+        style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0,
+          height: '26%', zIndex: 40, cursor: 'default',
+        }}
+      />
+
+      {/* Botón cerrar — operador, oculto hasta que se toque el tercio inferior */}
       <button
         onClick={handleClose}
         title="Cerrar aplicación"
         style={{
           position: 'absolute', bottom: '36px', right: '36px',
-          width: closeState === 'failed' ? '340px' : '80px',
-          height: '80px',
-          background: closeState === 'failed' ? 'rgba(192,57,43,0.85)' : 'rgba(0,0,0,0.28)',
+          width: '80px', height: '80px',
+          background: 'rgba(192,57,43,0.85)',
           border: '2px solid rgba(255,255,255,0.35)',
           borderRadius: '16px',
-          cursor: closeState === 'idle' ? 'pointer' : 'default',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
+          cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
           zIndex: 50,
-          animation: 'fadeIn 0.4s ease-out 1.3s both',
           backdropFilter: 'blur(6px)',
-          transition: 'background 0.2s, width 0.3s',
-          overflow: 'hidden', whiteSpace: 'nowrap',
-          padding: '0 20px',
+          opacity: showClose ? 1 : 0,
+          pointerEvents: showClose ? 'auto' : 'none',
+          transition: 'opacity 0.3s',
         }}
       >
-        {closeState === 'failed' ? (
-          <span style={{ color: '#fff', fontSize: '28px', fontFamily: "'Segoe UI',sans-serif", fontWeight: 600 }}>
-            Usa Alt+F4 para cerrar
-          </span>
-        ) : (
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round"
-            style={{ opacity: closeState === 'closing' ? 0.4 : 1, transition: 'opacity 0.2s' }}>
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        )}
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
       </button>
 
     </div>
