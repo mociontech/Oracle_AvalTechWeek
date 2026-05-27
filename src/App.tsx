@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import WelcomeScreen   from './screens/WelcomeScreen'
 import GuideScreen     from './screens/GuideScreen'
@@ -42,7 +42,7 @@ function TotemScaler({ children }: { children: React.ReactNode }) {
   )
 }
 
-function AppRoutes({ toggleFs }: { toggleFs: () => void }) {
+function AppRoutes() {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -50,7 +50,7 @@ function AppRoutes({ toggleFs }: { toggleFs: () => void }) {
     <TotemScaler>
       <div key={location.key} className="page-enter" style={{ position: 'absolute', inset: 0 }}>
         <Routes location={location}>
-          <Route path="/"         element={<WelcomeScreen  onNext={()    => navigate('/guide')} onToggleFullscreen={toggleFs} />} />
+          <Route path="/"         element={<WelcomeScreen  onNext={()    => navigate('/guide')} />} />
           <Route path="/guide"    element={<GuideScreen    onNext={()    => navigate('/ready')}    />} />
           <Route path="/ready"    element={<ReadyScreen    onNext={()    => navigate('/oracle')} onBack={() => navigate('/')} />} />
           <Route path="/oracle"   element={<OracleScreen   onFinish={()  => navigate('/question')} />} />
@@ -63,11 +63,8 @@ function AppRoutes({ toggleFs }: { toggleFs: () => void }) {
 }
 
 function useAutoFullscreen() {
-  const userExitedRef = useRef(false)
-
   useEffect(() => {
     const request = () => {
-      if (userExitedRef.current) return
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen?.().catch(() => {})
       }
@@ -75,23 +72,11 @@ function useAutoFullscreen() {
     window.addEventListener('pointerdown', request)
     return () => window.removeEventListener('pointerdown', request)
   }, [])
-
-  const toggleFs = useCallback(() => {
-    if (document.fullscreenElement) {
-      userExitedRef.current = true
-      document.exitFullscreen?.().catch(() => {})
-    } else {
-      userExitedRef.current = false
-      document.documentElement.requestFullscreen?.().catch(() => {})
-    }
-  }, [])
-
-  return toggleFs
 }
 
 export default function App() {
   const [preloaderDone, setPreloaderDone] = useState(false)
-  const toggleFs = useAutoFullscreen()
+  useAutoFullscreen()
 
   return (
     <>
@@ -100,7 +85,7 @@ export default function App() {
 
       {/* App renderizada en segundo plano; el preloader la tapa hasta que esté lista */}
       <BrowserRouter>
-        <AppRoutes toggleFs={toggleFs} />
+        <AppRoutes />
       </BrowserRouter>
 
       {/* Preloader — se muestra encima hasta que todas las imágenes estén cacheadas */}

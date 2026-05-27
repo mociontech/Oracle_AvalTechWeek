@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 
 const CDP_API    = 'http://localhost:3001'
-const ORACLE_URL = 'https://g1cde62092a80c9-bankdb.adb.sa-bogota-1.oraclecloudapps.com/ords/r/quiz/quiz/registro'
 
 const imgBgTexture  = '/images/oracle-bg-texture.png'
 const imgBgDecoTop  = '/images/oracle-bg-deco-top.png'
@@ -51,7 +50,7 @@ export default function OracleScreen({ onFinish }: Props) {
     const sw = window.screen.availWidth
     const sh = window.screen.availHeight
     oracleWinRef.current = window.open(
-      ORACLE_URL, 'oracle-quiz',
+      '/oracle-launcher.html', 'oracle-quiz',
       `width=${sw},height=${sh},top=0,left=0`,
     )
 

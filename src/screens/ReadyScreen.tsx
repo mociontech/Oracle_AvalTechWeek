@@ -97,34 +97,25 @@ export default function ReadyScreen({ onNext, onBack }: Props) {
         </span>
       </div>
 
-      {/* Botón volver — esquina inferior izquierda */}
-      <button
+      {/* Botón Volver — misma forma que Iniciar reto */}
+      <div
         onClick={onBack}
         style={{
-          position: 'absolute', bottom: '48px', left: '52px',
-          background: 'transparent',
-          border: '2px solid rgba(68,77,77,0.35)',
-          borderRadius: '16px',
-          color: '#444d4d',
-          fontFamily: "'Oracle Sans', sans-serif",
-          fontWeight: 500,
-          fontSize: '38px',
-          padding: '20px 48px',
+          position: 'absolute', bottom: '60px', left: '52px',
+          width: '380px', height: '108px',
           cursor: 'pointer',
           animation: 'fadeIn 0.4s ease-out 1.2s both',
-          transition: 'background 0.2s, border-color 0.2s',
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.background = 'rgba(68,77,77,0.1)'
-          e.currentTarget.style.borderColor = 'rgba(68,77,77,0.6)'
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.background = 'transparent'
-          e.currentTarget.style.borderColor = 'rgba(68,77,77,0.35)'
         }}
       >
-        ← Volver
-      </button>
+        <img alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', maxWidth: 'none', display: 'block' }} src={imgStartBtn} />
+        <span style={{
+          position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: "'Oracle Sans', sans-serif", fontWeight: 800, fontSize: '52px',
+          color: '#fff', letterSpacing: '1px',
+        }}>
+          ← Volver
+        </span>
+      </div>
 
     </div>
   )

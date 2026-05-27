@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 
 const imgBgTexture  = '/images/welcome-bg-texture.png'
 const imgBgDeco     = '/images/welcome-bg-deco.png'
@@ -6,7 +6,7 @@ const imgBottomRed  = '/images/welcome-bottom-red.png'
 const imgOracleLogo = '/images/welcome-oracle-logo.png'
 const imgStartBtn   = '/images/welcome-start-btn.svg'
 
-interface Props { onNext: () => void; onToggleFullscreen: () => void }
+interface Props { onNext: () => void }
 
 const abs = (top: string, right: string, bottom: string, left: string) => ({
   position: 'absolute' as const,
@@ -16,19 +16,12 @@ const abs = (top: string, right: string, bottom: string, left: string) => ({
 const anim = (name: string, duration: string, delay: string, extra = '') =>
   ({ animation: `${name} ${duration} ease-out ${delay} both ${extra}`.trim() })
 
-export default function WelcomeScreen({ onNext, onToggleFullscreen }: Props) {
-  const [isFs, setIsFs] = useState(!!document.fullscreenElement)
+const closeApp = (e: React.MouseEvent) => {
+  e.stopPropagation()
+  fetch('http://localhost:3001/api/close-kiosk', { method: 'POST' }).catch(() => {})
+}
 
-  useEffect(() => {
-    const onChange = () => setIsFs(!!document.fullscreenElement)
-    document.addEventListener('fullscreenchange', onChange)
-    return () => document.removeEventListener('fullscreenchange', onChange)
-  }, [])
-
-  const handleToggle = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    onToggleFullscreen()
-  }
+export default function WelcomeScreen({ onNext }: Props) {
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -126,10 +119,10 @@ export default function WelcomeScreen({ onNext, onToggleFullscreen }: Props) {
         </span>
       </div>
 
-      {/* Botón fullscreen — esquina inferior derecha */}
+      {/* Botón cerrar app — operador, esquina inferior derecha */}
       <button
-        onClick={handleToggle}
-        title={isFs ? 'Salir de pantalla completa' : 'Pantalla completa'}
+        onClick={closeApp}
+        title="Cerrar aplicación"
         style={{
           position: 'absolute', bottom: '36px', right: '36px',
           width: '80px', height: '80px',
@@ -141,28 +134,15 @@ export default function WelcomeScreen({ onNext, onToggleFullscreen }: Props) {
           zIndex: 50,
           animation: 'fadeIn 0.4s ease-out 1.3s both',
           backdropFilter: 'blur(6px)',
-          transition: 'background 0.2s, border-color 0.2s',
+          transition: 'background 0.2s',
         }}
         onMouseEnter={e => (e.currentTarget.style.background = 'rgba(192,57,43,0.55)')}
         onMouseLeave={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.28)')}
       >
-        {isFs ? (
-          /* ícono comprimir */
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="4 14 10 14 10 20"/>
-            <polyline points="20 10 14 10 14 4"/>
-            <line x1="10" y1="14" x2="3" y2="21"/>
-            <line x1="21" y1="3" x2="14" y2="10"/>
-          </svg>
-        ) : (
-          /* ícono expandir */
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 3 21 3 21 9"/>
-            <polyline points="9 21 3 21 3 15"/>
-            <line x1="21" y1="3" x2="14" y2="10"/>
-            <line x1="3" y1="21" x2="10" y2="14"/>
-          </svg>
-        )}
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
       </button>
 
     </div>

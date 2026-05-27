@@ -74,6 +74,13 @@ http.createServer((req, res) => {
     send(res, 200, { ok: true }); return
   }
 
+  if (req.method === 'POST' && req.url === '/api/close-kiosk') {
+    send(res, 200, { ok: true })
+    const { exec } = await import('node:child_process')
+    exec('taskkill /F /IM chrome.exe', () => {})
+    return
+  }
+
   send(res, 404, { error: 'Not found' })
 
 }).listen(PORT, '127.0.0.1', () => {
