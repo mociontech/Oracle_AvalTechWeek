@@ -1,9 +1,9 @@
-const imgBgTexture   = 'https://www.figma.com/api/mcp/asset/7604b101-126a-4910-a707-010332492a9c'
-const imgBgDecoRight = 'https://www.figma.com/api/mcp/asset/d1fcdbe0-b7d1-4bf9-b01d-4a882af05c3a'
-const imgOracleLogo  = 'https://www.figma.com/api/mcp/asset/7ee56ca5-21a8-4754-8758-921d4a533a02'
-const imgQrFrame     = 'https://www.figma.com/api/mcp/asset/8be57a3d-b6de-4104-8141-fcfc8b2c003a'
-const imgQrCode      = 'https://www.figma.com/api/mcp/asset/55f2997a-9d66-48f0-9ead-ad9d8ef23a91'
-const imgArrow       = 'https://www.figma.com/api/mcp/asset/2b631c6f-55e6-4981-a1d2-ed4f7cd6b22c'
+const imgBgTexture   = '/images/guide-bg-texture.png'
+const imgBgDecoRight = '/images/guide-bg-deco.png'
+const imgOracleLogo  = '/images/guide-oracle-logo.png'
+const imgQrFrame     = '/images/guide-bottom-red.svg'
+const imgQrCode      = '/images/guide-arrow.png'
+const imgArrow       = '/images/guide-qr.png'
 
 interface Props { onNext: () => void }
 

@@ -1,6 +1,6 @@
-const imgBgTexture  = 'https://www.figma.com/api/mcp/asset/8bbc8284-7054-44e9-9bee-6acbe8c8dd80'
-const imgBgDecoTop  = 'https://www.figma.com/api/mcp/asset/0734cd5b-4f59-4677-89d6-a6edb0a0d561'
-const imgLogoBanner = 'https://www.figma.com/api/mcp/asset/0d9aebcd-b233-4d74-a62a-59f1e82322ab'
+const imgBgTexture  = '/images/branding-1.png'
+const imgBgDecoTop  = '/images/branding-2.png'
+const imgLogoBanner = '/images/branding-3.png'
 
 interface Props { onNext: () => void }
 

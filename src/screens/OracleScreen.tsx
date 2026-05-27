@@ -3,11 +3,11 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 const CDP_API    = 'http://localhost:3001'
 const ORACLE_URL = 'https://g1cde62092a80c9-bankdb.adb.sa-bogota-1.oraclecloudapps.com/ords/r/quiz/quiz/registro'
 
-const imgBgTexture  = 'https://www.figma.com/api/mcp/asset/d119244c-3661-41e9-a2bf-0783f295c510'
-const imgBgDecoTop  = 'https://www.figma.com/api/mcp/asset/f645c64d-53ce-470a-a682-3f6d4323e1ae'
-const imgLogoBanner = 'https://www.figma.com/api/mcp/asset/6541f0e3-9dad-4ff5-8f83-682a23dc55b2'
-const imgCarSwoosh  = 'https://www.figma.com/api/mcp/asset/07fffdd2-3d69-466d-beb3-13f128701adc'
-const imgCar        = 'https://www.figma.com/api/mcp/asset/5aa26987-02a4-4eb1-9acf-52df247845b0'
+const imgBgTexture  = '/images/oracle-bg-texture.png'
+const imgBgDecoTop  = '/images/oracle-bg-deco-top.png'
+const imgLogoBanner = '/images/oracle-logo-banner.png'
+const imgCarSwoosh  = '/images/oracle-car-swoosh.png'
+const imgCar        = '/images/oracle-car.png'
 
 interface Props { onFinish: () => void }
 

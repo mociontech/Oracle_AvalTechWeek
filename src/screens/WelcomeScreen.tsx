@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 
-const imgBgTexture = 'https://www.figma.com/api/mcp/asset/ffc9e09a-a778-40d4-9e6e-ff60f284db26'
-const imgBgDeco    = 'https://www.figma.com/api/mcp/asset/e15c5e97-f198-4cd1-ab53-e80495309463'
-const imgBottomRed = 'https://www.figma.com/api/mcp/asset/5e49eda5-1ae5-4aa2-9e1d-5ba584a392d9'
-const imgOracleLogo = 'https://www.figma.com/api/mcp/asset/f1af5a47-c233-4342-a995-86109df7bd48'
-const imgStartBtn  = 'https://www.figma.com/api/mcp/asset/79ffdf5a-d983-4c63-82fc-c15103dd95b5'
+const imgBgTexture  = '/images/welcome-bg-texture.png'
+const imgBgDeco     = '/images/welcome-bg-deco.png'
+const imgBottomRed  = '/images/welcome-bottom-red.png'
+const imgOracleLogo = '/images/welcome-oracle-logo.png'
+const imgStartBtn   = '/images/welcome-start-btn.svg'
 
 interface Props { onNext: () => void }
 

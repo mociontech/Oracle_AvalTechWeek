@@ -1,8 +1,8 @@
-const imgBgTexture  = 'https://www.figma.com/api/mcp/asset/1df0fe54-3af3-41ce-b4b7-6e4c07a147f5'
-const imgBgDeco     = 'https://www.figma.com/api/mcp/asset/9a3270e8-099c-47f1-9a1a-a36d6ad1fa4a'
-const imgOracleLogo = 'https://www.figma.com/api/mcp/asset/8e758de4-9fd4-43cd-92d1-a6b1572c6acb'
-const imgBottomRed  = 'https://www.figma.com/api/mcp/asset/ac82800c-64e1-44cd-a2fc-de4ee46c2ef8'
-const imgStartBtn   = 'https://www.figma.com/api/mcp/asset/4ba57e9b-5453-4b36-ac70-e03ec27a3284'
+const imgBgTexture  = '/images/ready-bg-texture.png'
+const imgBgDeco     = '/images/ready-bg-deco.png'
+const imgOracleLogo = '/images/ready-oracle-logo.png'
+const imgBottomRed  = '/images/ready-bottom-red.png'
+const imgStartBtn   = '/images/ready-start-btn.svg'
 
 interface Props { onNext: () => void }
 
