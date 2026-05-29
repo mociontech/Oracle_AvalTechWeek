@@ -20,6 +20,7 @@ export default function OracleScreen({ onFinish }: Props) {
   const pollRef      = useRef<ReturnType<typeof setInterval> | null>(null)
   const cdpPollRef   = useRef<ReturnType<typeof setInterval> | null>(null)
   const doneRef      = useRef(false)
+  const openTimeRef  = useRef(Date.now())
 
   const [cdpActive, setCdpActive] = useState(false)
 
@@ -55,21 +56,26 @@ export default function OracleScreen({ onFinish }: Props) {
       `width=${sw},height=${sh},top=0,left=0`,
     )
 
+    const MIN_MS = 25_000 // 25 s mínimo antes de triggers automáticos
+
     pollRef.current = setInterval(() => {
       const win = oracleWinRef.current
-      if (win && win.closed) finish()
+      if (win && win.closed && Date.now() - openTimeRef.current > MIN_MS) finish()
     }, 1000)
 
-    cdpPollRef.current = setInterval(async () => {
-      try {
-        const res  = await fetch(`${CDP_API}/api/oracle-ranking`)
-        const data = await res.json() as { detected: boolean }
-        if (data.detected) {
-          clearInterval(cdpPollRef.current!)   // dejar de consultar
-          setTimeout(finish, 7000)             // cerrar tras 7 s viendo el ranking
-        }
-      } catch { /* servidor no listo */ }
-    }, 1000)
+    // Esperar 10 s antes de empezar a consultar el ranking (descarta falsos positivos)
+    const cdpDelay = setTimeout(() => {
+      cdpPollRef.current = setInterval(async () => {
+        try {
+          const res  = await fetch(`${CDP_API}/api/oracle-ranking`)
+          const data = await res.json() as { detected: boolean }
+          if (data.detected) {
+            clearInterval(cdpPollRef.current!)
+            setTimeout(finish, 7000)
+          }
+        } catch { /* servidor no listo */ }
+      }, 1000)
+    }, 10_000)
 
     fetch(`${CDP_API}/api/cdp-status`)
       .then(r => r.json())
@@ -77,6 +83,7 @@ export default function OracleScreen({ onFinish }: Props) {
       .catch(() => {})
 
     return () => {
+      clearTimeout(cdpDelay)
       clearInterval(pollRef.current!)
       clearInterval(cdpPollRef.current!)
     }
